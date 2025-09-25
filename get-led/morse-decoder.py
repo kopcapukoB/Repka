@@ -19,11 +19,12 @@ l_t = s_t * 3
 space_t = s_t * 5
 GPIO.output(leds, 0)
 print('===========================')
-print('Morse-decoder. Version 1.0.')
+print('Morse-decoder. Version 1.1.')
 print('===========================')
 print('Press the button 13 to send a message')
 print('Press the button 9 to increase the tick duration')
 print('Press the button 10 to decrase the tick duration')
+print('Tick = 0.5')
 
 def point():
     print('. ', end='')
