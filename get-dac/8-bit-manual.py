@@ -21,7 +21,6 @@ try:
         try:
             voltage = float(input("Введите напряжение в Вольтах: "))
             number = voltage_to_number(voltage)
-            #dynamic_range = number
             number_to_dac(number)
             print(f"Число на вход ЦАП: {number}, биты: {number_to_dac(number)}\n")
             GPIO.output(dac_bits, number_to_dac(number))
