@@ -20,10 +20,11 @@ class R2R_DAC:
         number = int(voltage / self.dynamic_range * 255)
         GPIO.output(self.gpio_bits, [int(element) for element in bin(number)[2:].zfill(8)])
 
+dac = R2R_DAC([16, 20, 21, 25, 26, 17, 27, 22], 3.279, True)
 
 if __name__ == "__main__":
     try:
-        dac = R2R_DAC([16, 20, 21, 25, 26, 17, 27, 22], 3.157, True)
+        dac = R2R_DAC([16, 20, 21, 25, 26, 17, 27, 22], 3.279, True)
         while True:
             try:
                 dynamic_range = 3.157

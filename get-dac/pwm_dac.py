@@ -6,30 +6,40 @@ class PWM_DAC:
         self.pwm_frequency = pwm_frequency
         self.dynamic_range = dynamic_range
         self.verbose = verbose
-
+        
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.gpio_pin, GPIO.OUT)
+        self.pwm = GPIO.PWM(self.gpio_pin, self.pwm_frequency)
+        
 
     def deinit(self):
         GPIO.output(self.gpio_pin, 0)
         GPIO.cleanup()
 
     def set_voltage(self, voltage):
-        duty = int(voltage / self.dynamic_range * 100)
-        pwm = GPIO.PWM(self.gpio_pin, self.pwm_frequency)
-        pwm.start(duty)
+        number = int(voltage / self.dynamic_range * 255)
+        if not (0.0 <= voltage <= self.dynamic_range):
+            #print(f"Напряжение выходит за динамический диапазон ЦАП (0.00 - {self.dynamic_range:.2f} B)")
+            #print("Устанавливаем 0.0 B")
+            number = 0
+        duty = (number/255.0) * 100
+        #print(f"Коэффициент заполнения:\t")
+        #print(format(duty, ".2f"))
+        self.pwm.ChangeDutyCycle(duty)
+        self.pwm.start(duty)
+
+dac = PWM_DAC(12, 10000, 3.279, True)
+        
 
 if __name__ == "__main__":
     try:
-        dac = PWM_DAC(12, 500, 3.157, True)
+        dac = PWM_DAC(12, 10000, 3.279, True)
 
         while True:
             try:
                 dynamic_range = 3.157
                 voltage = float(input("Введите напряжение в Вольтах: "))
                 dac.set_voltage(voltage)
-                number = float(voltage / dynamic_range * 100)
-                print(f"Коэффициент заполнения: {number}")
 
             except ValueError:
                 print("Вы ввели не число. Попробуйте ещё раз\n")
