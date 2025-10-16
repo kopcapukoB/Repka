@@ -1,11 +1,11 @@
 import numpy
 import time
-import pwm_dac
+import mcp4725_driver
 import signal_generator as sg
 
 amplitude = 3.0
-signal_frequency = 100.0
-sampling_frequency = 1000.0
+signal_frequency = 10.0
+sampling_frequency = 200.0
 tim = 0.0
 
 if __name__ == "__main__":
@@ -13,7 +13,7 @@ if __name__ == "__main__":
         while True:
             try:
                 voltage = amplitude * sg.get_sin_wave_amplitude(signal_frequency, tim)
-                pwm_dac.dac.set_voltage(voltage)
+                mcp4725_driver.dac.set_voltage(voltage)
                 sg.wait_for_sampling_period(sampling_frequency)
                 tim = tim + 1 / sampling_frequency
 
@@ -21,4 +21,4 @@ if __name__ == "__main__":
                 print("Вы ввели не число. Попробуйте ещё раз \n")
 
     finally:
-        pwm_dac.dac.deinit()
+        mcp4725_driver.dac.deinit()

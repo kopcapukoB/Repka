@@ -28,12 +28,12 @@ class PWM_DAC:
         self.pwm.ChangeDutyCycle(duty)
         self.pwm.start(duty)
 
-dac = PWM_DAC(12, 10000, 3.279, True)
+dac = PWM_DAC(12, 5000, 3.279, True)
         
 
 if __name__ == "__main__":
     try:
-        dac = PWM_DAC(12, 10000, 3.279, True)
+        dac = PWM_DAC(12, 5000, 3.279, True)
 
         while True:
             try:

@@ -13,7 +13,7 @@ class MCP4725:
         self.dynamic_range = dynamic_range
 
     def deinit(self):
-        self.bus_close()
+        self.bus.close()
 
     def set_number(self, number):
         if not isinstance(number, int):
@@ -36,6 +36,8 @@ class MCP4725:
             print("Устанавливаем 0.0 B")
             number = 0
         self.set_number(number)
+
+dac = MCP4725(5.18, True)
 
 if __name__ == "__main__":
     try:
