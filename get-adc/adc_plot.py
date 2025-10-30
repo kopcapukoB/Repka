@@ -20,7 +20,7 @@ def plot_sampling_period_hist(time):
     print(sampling_periods)
     plt.xlabel("Период измерения, с")
     plt.ylabel("Количество измерений")
-    plt.xlim(0, 0.5)
+    plt.xlim(0, 0.02)
     plt.ylim(0, 1000)
     plt.hist(sampling_periods)
     plt.grid()

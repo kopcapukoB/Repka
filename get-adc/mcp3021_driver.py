@@ -20,32 +20,23 @@ class MCP3021:
         if self.verbose:
             print(f"Принятые данные: {data}, Старший байт; {upper_data_byte:x}, Младший байт; {lower_data_byte:x}, Число: {number}")
         return number
-
-    def sequential_counting_adc(self):
-        number = -1
-        while(GPIO.input(self.comp_gpio) == 0 and number < 255):
-            number = number + 1
-            GPIO.output(self.bits_gpio, R2R_ADC.number_to_dac(self, number))
-            time.sleep(self.compare_time)
-        reset_number = 0
-        GPIO.output(self.bits_gpio, R2R_ADC.number_to_dac(self, reset_number))
-        return number
     
     def get_voltage(self):
-        return float(self.dynamic_range * MCP3021.get_number(self) / 256)
+        return float(self.dynamic_range * MCP3021.get_number(self) / 644)
 
 if __name__ == "__main__":
-    dac = MCP3021(5.19, True)
+    mcp = MCP3021(3.278, True)
     try:
         while True:
             try:
                 #print(dac.sequential_counting_adc())
-                voltage = dac.get_voltage()
-                print(f"Напряжение: {voltage} В\n")
-                time.sleep(1.0)
+                voltage = mcp.get_voltage()
+                print(mcp.get_number())
+                print(f"Напряжение: {voltage:.3f} В\n")
+                time.sleep(0.5)
 
             except ValueError:
                 print("Вы ввели не число. Попробуйте ещё раз \n")
 
     finally:
-        dac.deinit()
+        mcp.deinit()
