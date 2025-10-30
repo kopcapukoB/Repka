@@ -33,14 +33,33 @@ class R2R_ADC:
 
     def get_sc_voltage(self):
         return float(self.dynamic_range * R2R_ADC.sequential_counting_adc(self) / 256)
+    
+    def successive_approximation_adc(self):
+        razr = 64
+        number = 128
+        time.sleep(self.compare_time)
+        GPIO.output(self.bits_gpio, R2R_ADC.number_to_dac(self, number))
+        time.sleep(self.compare_time)
+        for i in range(8):
+            if GPIO.input(self.comp_gpio) == 0:
+                number = number + razr
+            else:
+                number = number - razr
+            GPIO.output(self.bits_gpio, R2R_ADC.number_to_dac(self, number))
+            razr = int(razr / 2)
+            time.sleep(self.compare_time)
+
+        reset_number = 0
+        GPIO.output(self.bits_gpio, R2R_ADC.number_to_dac(self, reset_number))
+        return number
 
 if __name__ == "__main__":
-    dac = R2R_ADC(3.157, 0.01, True)
+    dac = R2R_ADC(3.157, 0.003  , True)
     try:
         while True:
             try:
                 #print(dac.sequential_counting_adc())
-                voltage = dac.dynamic_range * dac.sequential_counting_adc() / 256
+                voltage = dac.dynamic_range * dac.successive_approximation_adc() / 256
                 print(f"Напряжение: {voltage} В\n")
 
             except ValueError:
