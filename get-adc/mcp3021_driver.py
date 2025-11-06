@@ -8,7 +8,7 @@ class MCP3021:
         self.dynamic_range = dynamic_range
         self.address = 0x4D
         self.verbose = verbose
-
+  
     def deinit(self):
         self.bus.close()
 

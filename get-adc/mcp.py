@@ -7,7 +7,7 @@ voltage_values = []
 time_values = []
 duration = 10.0
 act_time = 0.0
-max_voltage = 3.5
+max_voltage = 5.5
 
 if __name__ == "__main__":
     mcp = driver.MCP3021(3.278, True)
